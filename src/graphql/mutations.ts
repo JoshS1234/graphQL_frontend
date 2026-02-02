@@ -11,11 +11,22 @@ export const CREATE_USER = gql`
 `;
 
 export const CREATE_BOOK = gql`
-  mutation CreateBook($title: String!, $author: String!, $userId: ID!) {
-    createBook(title: $title, author: $author, userId: $userId) {
+  mutation CreateBook(
+    $title: String!
+    $author: String!
+    $userId: ID!
+    $publishedYear: Int!
+  ) {
+    createBook(
+      title: $title
+      author: $author
+      userId: $userId
+      publishedYear: $publishedYear
+    ) {
       id
       title
       author
+      publishedYear
       user {
         id
         name

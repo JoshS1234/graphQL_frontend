@@ -15,6 +15,7 @@ function App() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [userId, setUserId] = useState("");
+  const [publishedYear, setPublishedYear] = useState("");
 
   const {
     data: usersData,
@@ -52,11 +53,17 @@ function App() {
     e.preventDefault();
     if (!title.trim() || !author.trim() || !userId.trim()) return;
     await createBook({
-      variables: { title: title.trim(), author: author.trim(), userId },
+      variables: {
+        title: title.trim(),
+        author: author.trim(),
+        publishedYear: parseInt(publishedYear.trim()),
+        userId,
+      },
     });
     setTitle("");
     setAuthor("");
     setUserId("");
+    setPublishedYear("");
   };
 
   const users = usersData?.getAllUsers ?? [];
@@ -164,6 +171,12 @@ function App() {
                 onChange={(e) => setAuthor(e.target.value)}
                 style={styles.input}
               />
+              <input
+                placeholder="Published Year"
+                value={publishedYear}
+                onChange={(e) => setPublishedYear(e.target.value)}
+                style={styles.input}
+              />
               <select
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
@@ -177,7 +190,7 @@ function App() {
                   </option>
                 ))}
               </select>
-              <button type="submit" style={styles.button} disabled={!userId}>
+              <button type="submit" style={styles.button} disabled={false}>
                 Add Book
               </button>
             </form>
@@ -192,6 +205,7 @@ function App() {
                     id: string;
                     title: string;
                     author: string;
+                    publishedYear: number;
                     user?: { name: string };
                   }) => (
                     <li key={b.id} style={styles.listItem}>
